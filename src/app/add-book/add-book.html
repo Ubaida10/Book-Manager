@@ -1,0 +1,40 @@
+<section class="add-book-form">
+  <header>
+    <h2>Add a New Book</h2>
+  </header>
+
+  <form [formGroup]="newBookForm" (ngSubmit)="createNewBook()" aria-label="Add Book Form">
+    <fieldset>
+      <legend>Book Details</legend>
+
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input id="title" formControlName="title" placeholder="Book Title"/>
+
+        @if (newBookForm.get('title')?.invalid && newBookForm.get('title')?.touched) {
+          <div class="error">Title is required</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="author">Author:</label>
+        <input id="author" formControlName="author" placeholder="Author"/>
+
+        @if (newBookForm.get('author')?.invalid && newBookForm.get('author')?.touched) {
+          <div class="error">Author is required</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <input id="description" formControlName="description" placeholder="Description"/>
+
+        @if (newBookForm.get('description')?.invalid && newBookForm.get('description')?.touched) {
+          <div class="error">Description is required</div>
+        }
+      </div>
+
+      <button type="submit" [disabled]="newBookForm.invalid">Add Book</button>
+    </fieldset>
+  </form>
+</section>

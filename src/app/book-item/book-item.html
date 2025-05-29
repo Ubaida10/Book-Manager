@@ -1,0 +1,7 @@
+<article class="book-card">
+  <header>
+    <h3>{{ book.title }}</h3>
+  </header>
+  <p><strong>Author:</strong> {{ book.author }}</p>
+  <p *ngIf="book.description"><strong>Description:</strong> {{ book.description }}</p>
+</article>

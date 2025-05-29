@@ -1,0 +1,21 @@
+<article class="book-detail">
+  <header>
+    <h2>{{ book?.title }}</h2>
+    <p class="author">By {{ book?.author }}</p>
+  </header>
+
+  <section class="description">
+    <h3>Description</h3>
+    <p *ngIf="book?.description; else noDesc">
+      {{ book?.description }}
+    </p>
+    <ng-template #noDesc>
+      <p class="no-description">No description provided.</p>
+    </ng-template>
+  </section>
+
+  <footer class="actions">
+    <button (click)="editBook()">Edit</button>
+    <button (click)="deleteBook()">Delete</button>
+  </footer>
+</article>
