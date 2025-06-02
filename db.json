@@ -30,5 +30,15 @@
       "author": "Marijn Haverbeke",
       "description": "A deep dive into JavaScript programming with elegant examples."
     }
+  ],
+  "users": [
+    {
+      "email": "xyz@gmail.com",
+      "password": "1234"
+    },
+    {
+      "email": "example@gmail.com",
+      "password": "1234"
+    }
   ]
 }

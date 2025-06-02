@@ -1,24 +1,25 @@
 import {Component, inject} from '@angular/core';
-import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BoookService} from '../boook-service';
-import {NgIf} from '@angular/common';
 
 @Component({
   selector: 'app-add-book',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
   ],
   templateUrl: './add-book.html',
   styleUrl: './add-book.css'
 })
 export class AddBook {
   booksService = inject(BoookService);
+
+  //Reactive Form
   newBookForm: FormGroup = new FormGroup({
     title: new FormControl(''),
     author: new FormControl(''),
     description: new FormControl(''),
   });
-
   createNewBook(){
     this.booksService.createBook(
       this.newBookForm.value.title ?? '',

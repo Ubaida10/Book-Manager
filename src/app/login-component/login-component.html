@@ -1,0 +1,40 @@
+<section class="verify-user">
+  <header>
+    Login
+  </header>
+
+  <form #verifyUser="ngForm" (ngSubmit)="validateUser(verifyUser)" aria-label="Verify User">
+    <fieldset>
+      <legend>User Details</legend>
+
+      <div class="form-group">
+        <label for="email">Email: </label>
+        <input
+          id="email"
+          name="email"
+          [(ngModel)]="userData.email"
+          required
+          #email="ngModel"
+          type="email"
+          placeholder="Enter Email"/>
+        <div *ngIf="email.invalid && email.touched" class="error">Enter the correct email</div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Password: </label>
+        <input
+          id="password"
+          name="password"
+          [(ngModel)]="userData.password"
+          required
+          type="password"
+          #password="ngModel"
+          placeholder="Enter password"/>
+
+        <div *ngIf="password.invalid && password.touched" class="error">Enter the correct password</div>
+      </div>
+
+      <button type="submit" [disabled]="verifyUser.invalid">Verify</button>
+    </fieldset>
+  </form>
+</section>
