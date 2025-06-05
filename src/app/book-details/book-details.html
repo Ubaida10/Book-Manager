@@ -1,21 +1,26 @@
-<article class="book-detail">
+<article class="book-detail" *ngIf="book">
   <header>
-    <h2>{{ book?.title }}</h2>
-    <p class="author">By {{ book?.author }}</p>
+    <h2 *ngIf="!isEditing">{{ book.title }}</h2>
+    <input *ngIf="isEditing" [(ngModel)]="book.title" />
+
+    <p class="author" *ngIf="!isEditing">By {{ book.author }}</p>
+    <input *ngIf="isEditing" [(ngModel)]="book.author" />
   </header>
 
   <section class="description">
     <h3>Description</h3>
-    <p *ngIf="book?.description; else noDesc">
-      {{ book?.description }}
+
+    <p *ngIf="book.description && !isEditing">{{ book.description }}</p>
+    <textarea *ngIf="isEditing" [(ngModel)]="book.description"></textarea>
+
+    <p *ngIf="!book.description && !isEditing" class="no-description">
+      No description provided.
     </p>
-    <ng-template #noDesc>
-      <p class="no-description">No description provided.</p>
-    </ng-template>
   </section>
 
   <footer class="actions">
-    <button (click)="editBook()">Edit</button>
+    <button *ngIf="!isEditing" (click)="editBook()">Edit</button>
+    <button *ngIf="isEditing" (click)="saveBook()">Save</button>
     <button (click)="deleteBook()">Delete</button>
   </footer>
 </article>
