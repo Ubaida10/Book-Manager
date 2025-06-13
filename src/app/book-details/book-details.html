@@ -1,26 +1,64 @@
-<article class="book-detail" *ngIf="book">
+<section class="book-details-container">
   <header>
-    <h2 *ngIf="!isEditing">{{ book.title }}</h2>
-    <input *ngIf="isEditing" [(ngModel)]="book.title" />
-
-    <p class="author" *ngIf="!isEditing">By {{ book.author }}</p>
-    <input *ngIf="isEditing" [(ngModel)]="book.author" />
+    <h2>Book Details</h2>
   </header>
 
-  <section class="description">
-    <h3>Description</h3>
+  @if (book$ | async; as book) {
+    @if (book) {
+      <article class="book-detail">
+        @if (isEditing) {
+          <form (ngSubmit)="saveBook(book)">
+            <header>
+              <label for="title-edit">Title:</label>
+              <input id="title-edit" type="text" [(ngModel)]="book.title" name="title" required />
 
-    <p *ngIf="book.description && !isEditing">{{ book.description }}</p>
-    <textarea *ngIf="isEditing" [(ngModel)]="book.description"></textarea>
+              <label for="author-edit">Author:</label>
+              <input id="author-edit" type="text" [(ngModel)]="book.author" name="author" required />
+            </header>
 
-    <p *ngIf="!book.description && !isEditing" class="no-description">
-      No description provided.
-    </p>
-  </section>
+            <section class="description">
+              <h3>Description</h3>
+              <label for="description-edit">Description:</label>
+              <textarea id="description-edit" [(ngModel)]="book.description" name="description"></textarea>
+            </section>
 
-  <footer class="actions">
-    <button *ngIf="!isEditing" (click)="editBook()">Edit</button>
-    <button *ngIf="isEditing" (click)="saveBook()">Save</button>
-    <button (click)="deleteBook()">Delete</button>
-  </footer>
-</article>
+            <footer class="actions">
+              <button type="submit">Save</button>
+              <button type="button" (click)="isEditing = false">Cancel</button>
+              <button type="button" (click)="deleteBook(book.id, book.title)">Delete</button>
+            </footer>
+          </form>
+        } @else {
+          <header>
+            <h2>{{ book.title }}</h2>
+            <p class="author">By {{ book.author }}</p>
+          </header>
+
+          <section class="description">
+            <h3>Description</h3>
+            @if (book.description) {
+              <p>{{ book.description }}</p>
+            } @else {
+              <p class="no-description">No description provided.</p>
+            }
+          </section>
+
+          <footer class="actions">
+            <button type="button" (click)="editBook()">Edit</button>
+            <button type="button" (click)="deleteBook(book.id, book.title)">Delete</button>
+          </footer>
+        }
+      </article>
+    } @else {
+      <p>Book not found.</p>
+    }
+  } @else {
+    @if (isLoading) {
+      <p>Loading book details...</p>
+    } @else if (errorLoadingBook) {
+      <p>Failed to load book details. Please try again.</p>
+    }
+  }
+
+  <a routerLink="/books">Back to Book List</a>
+</section>

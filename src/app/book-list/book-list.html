@@ -2,13 +2,15 @@
   <header>
     <h2>Book List</h2>
   </header>
-
-  @if (booksList.length > 0) {
-    @for (book of booksList; track book.title) {
-      <app-book-item [book]="book"></app-book-item>
-      <a [routerLink]="['/book', book.id]">Learn More</a>
+  @if (booksList$ | async; as books) {
+    @if (books.length > 0) {
+      @for (book of books; track book.title) {
+        <app-book-item [book]="book"></app-book-item>
+        <a [routerLink]="['/books', book.id]">Learn More</a>
+      }
+    } @else {
+      <p>No books available. Please add some!</p>
     }
-  } @else {
-    <p>No books available. Please add some!</p>
   }
+
 </section>

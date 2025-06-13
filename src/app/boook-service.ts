@@ -1,58 +1,76 @@
-import { Injectable } from '@angular/core';
+import {inject, Injectable } from '@angular/core';
 import {Books} from './books';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {catchError, map, Observable, of, throwError} from 'rxjs'; // Import throwError
 
 @Injectable({
   providedIn: 'root'
 })
 export class BoookService {
   url = 'http://localhost:3000/books';
-  constructor() { }
+  http = inject(HttpClient);
 
-  async getAllBooks(): Promise<Books[]>{
-    const data = await fetch(this.url);
-    return await data.json() ?? [];
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed:`, error); // Log the error
+
+      return throwError(() => new Error(`HTTP Error: ${operation} failed.`)); // Throw a new error observable
+    };
   }
 
-  async getBook(id: string): Promise<Books | undefined>{
-    const data = await fetch(`${this.url}/${id}`);
-    return await data.json() ?? [];
+  getAllBooks(): Observable<Books[]>{
+    return this.http.get<Books[]>(this.url).pipe(
+      map(data => data || []),
+      catchError(this.handleError<Books[]>('getAllBooks', []))
+    )
   }
 
-  async createBook(title:string, author:string, description:string): Promise<Books>{
+
+  getBook(id: string): Observable<Books | undefined> {
+    return this.http.get<Books>(`${this.url}/${id}`).pipe(
+      map(data => data),
+      catchError(error => {
+        if (error.status === 404) {
+          console.warn(`Book with ID ${id} not found.`);
+          return of(undefined);
+        } else {
+          return this.handleError<Books | undefined>(`getBook id=${id}`, undefined)(error);
+        }
+      })
+    );
+  }
+
+  createBook(title:string, author:string, description:string): Observable<Books>{
     const book = {title, author, description};
-    const res = await fetch(this.url, {
-      method: 'POST',
-      headers:{'content-type': 'application/json'},
-      body: JSON.stringify(book)
-    });
-    return await res.json()??[];
+    const httpOptions = {
+      headers: new HttpHeaders({ 'content-type': 'application/json' }),
+    }
+
+    return this.http.post<Books>(this.url, book, httpOptions).pipe(
+      map(data => data),
+      catchError(this.handleError<Books>('createBook'))
+    )
   }
 
-  async updateBook(id:string, books: Books): Promise<Books>{
-    const res = await fetch(`${this.url}/${id}`, {
-      method: 'PUT',
-      headers:{'content-type': 'application/json'},
-      body: JSON.stringify(books)
-    });
-    return await res.json()??[];
+  updateBook(id:string, books: Books): Observable<Books>{
+    const httpOptions = {
+      headers: new HttpHeaders({ 'content-type': 'application/json' }),
+    }
+
+    return this.http.put<Books>(`${this.url}/${id}`, books, httpOptions).pipe(
+      map(data => data),
+      catchError(this.handleError<Books>(`updateBook ${id}`))
+    )
   }
 
+  deleteBook(id:string): Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({ 'content-type': 'application/json' })
+    };
 
-  async patchBook(id:number, partialBook: Partial<Books>): Promise<Books>{
-    const res = await fetch(`${this.url}/${id}`, {
-      method: 'PATCH',
-      headers:{'content-type': 'application/json'},
-      body: JSON.stringify(partialBook)
-    });
-    return await res.json()??[];
-  }
-
-  async deleteBook(id:string){
-    const res = await fetch(`${this.url}/${id}`, {
-      method: 'DELETE',
-      headers:{'content-type': 'application/json'},
-      body: JSON.stringify({id})
-    });
-    return await res.json()??[];
+    return this.http.delete<any>(`${this.url}/${id}`, httpOptions).pipe(
+      catchError(this.handleError<any>(`deleteBook ${id}`))
+    )
   }
 }
