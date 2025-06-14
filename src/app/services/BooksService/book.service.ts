@@ -1,5 +1,5 @@
 import {inject, Injectable } from '@angular/core';
-import {Books} from './books';
+import {Books} from '../../interfaces/books';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, map, Observable, of, throwError} from 'rxjs'; // Import throwError
 

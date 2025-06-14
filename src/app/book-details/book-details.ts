@@ -1,7 +1,7 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {Books} from '../books';
+import {Books} from '../interfaces/books';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {BookService} from '../book.service';
+import {BookService} from '../services/BooksService/book.service';
 import {AsyncPipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {catchError, EMPTY, Observable, of, Subscription, switchMap, tap} from 'rxjs';

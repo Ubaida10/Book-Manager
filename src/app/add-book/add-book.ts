@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BookService} from '../book.service';
+import {BookService} from '../services/BooksService/book.service';
 import {Router} from '@angular/router';
 import {catchError, EMPTY, tap} from 'rxjs';
 

@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {BookService} from '../book.service';
-import {Books} from '../books';
+import {BookService} from '../services/BooksService/book.service';
+import {Books} from '../interfaces/books';
 import {BookItem} from '../book-item/book-item';
 import {RouterLink} from '@angular/router';
 import {catchError, Observable, of, tap} from 'rxjs';
