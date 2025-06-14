@@ -1,5 +1,5 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {BoookService} from '../boook-service';
+import {BookService} from '../book.service';
 import {Books} from '../books';
 import {BookItem} from '../book-item/book-item';
 import {RouterLink} from '@angular/router';
@@ -19,7 +19,7 @@ import {AsyncPipe} from '@angular/common';
 export class BookList implements OnInit {
   booksList$!: Observable<Books[] | undefined>
 
-  booksService = inject(BoookService);
+  booksService = inject(BookService);
   constructor() {}
 
   ngOnInit(){

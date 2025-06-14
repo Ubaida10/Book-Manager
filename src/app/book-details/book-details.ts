@@ -1,7 +1,7 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
 import {Books} from '../books';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {BoookService} from '../boook-service';
+import {BookService} from '../book.service';
 import {AsyncPipe} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {catchError, EMPTY, Observable, of, Subscription, switchMap, tap} from 'rxjs';
@@ -18,7 +18,7 @@ import {catchError, EMPTY, Observable, of, Subscription, switchMap, tap} from 'r
 })
 export class BookDetails implements OnInit, OnDestroy{
   route:ActivatedRoute = inject(ActivatedRoute);
-  booksService: BoookService = inject(BoookService);
+  booksService: BookService = inject(BookService);
   router: Router = inject(Router);
 
 

@@ -6,7 +6,7 @@ import {catchError, map, Observable, of, throwError} from 'rxjs'; // Import thro
 @Injectable({
   providedIn: 'root'
 })
-export class BoookService {
+export class BookService {
   url = 'http://localhost:3000/books';
   http = inject(HttpClient);
 

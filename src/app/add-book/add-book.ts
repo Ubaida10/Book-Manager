@@ -1,6 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {BoookService} from '../boook-service';
+import {BookService} from '../book.service';
 import {Router} from '@angular/router';
 import {catchError, EMPTY, tap} from 'rxjs';
 
@@ -14,7 +14,7 @@ import {catchError, EMPTY, tap} from 'rxjs';
   styleUrl: './add-book.css'
 })
 export class AddBook {
-  booksService = inject(BoookService);
+  booksService = inject(BookService);
   router: Router = inject(Router);
 
   isLoading = false;
